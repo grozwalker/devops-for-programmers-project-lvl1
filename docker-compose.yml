@@ -2,7 +2,6 @@ version: "3.9"
 
 services:
   app:
-    build: .
+    build: Dockerfile.production
+    image: grozwalker/devops-for-programmers-project-lvl1
     command: npm test
-    volumes:
-      - ./app:/app

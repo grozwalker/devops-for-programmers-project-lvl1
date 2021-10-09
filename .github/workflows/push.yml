@@ -15,6 +15,13 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
+      - name: Cache Docker layer
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{runner.os}}-buildx-${{github.sha}}
+          restore-keys: ${{runner.os}}-buildx-
+
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v1
@@ -25,8 +32,14 @@ jobs:
         with:
           context: .
           file: Dockerfile.production
+          builder: ${{steps.buildx.outputs.name}}
           push: false
+          cache-from: type=local, src=/tmp/.buildx-cache
+          cache-to: type=local, dest=/tmp/.buildx-cache
           tags: ${{secrets.DOCKER_HUB_USERNAME}}/devops-for-programmers-project-lvl1:latest
 
       - name: Image Digest
         run: echo ${{steps.docker_build.outputs.digest}}
+
+      - name: Builds Outpue
+        run: echo ${{steps.buildx.outputs.name}}

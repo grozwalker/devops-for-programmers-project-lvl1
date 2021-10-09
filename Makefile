@@ -1,5 +1,5 @@
 ci:
-	docker-compose up docker-compose.yml --abort-on-container-exit
+	docker-compose -f docker-compose.yml up --abort-on-container-exit
 
 start:
 	docker-compose up

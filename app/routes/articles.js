@@ -33,6 +33,7 @@ export default async (fastify) => {
     const { id } = req.params;
     const article = await fastify.db.models.Article.findByPk(id);
     reply.render('articles/show', { article });
+
     return reply;
   });
 

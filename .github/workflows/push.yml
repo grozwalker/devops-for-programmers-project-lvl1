@@ -45,9 +45,13 @@ jobs:
         run: |
           docker load < /tmp/${{env.DOCKER_IMAGE_NAME}}.tar
 
+      # - name: Run tests
+      #   run: |
+      #     docker run --rm ${{secrets.DOCKER_HUB_USERNAME}}/${{env.DOCKER_IMAGE_NAME}}:latest npm test
+
       - name: Run tests
         run: |
-          docker run --rm ${{secrets.DOCKER_HUB_USERNAME}}/${{env.DOCKER_IMAGE_NAME}}:latest npm test
+          make ci
 
       - name: Push image to registry
         run: |

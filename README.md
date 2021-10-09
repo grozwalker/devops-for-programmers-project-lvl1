@@ -3,3 +3,12 @@
 
 ### Build Status
 [![Build](https://github.com/grozwalker/devops-for-programmers-project-lvl1/actions/workflows/push.yml/badge.svg)](https://github.com/grozwalker/devops-for-programmers-project-lvl1/actions/workflows/push.yml)
+
+
+# Fastify Project
+
+## Start project
+
+```
+> make start
+```

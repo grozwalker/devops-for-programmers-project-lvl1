@@ -34,8 +34,8 @@ jobs:
           file: Dockerfile.production
           builder: ${{steps.buildx.outputs.name}}
           push: false
-          cache-from: type=local, src=/tmp/.buildx-cache
-          cache-to: type=local, dest=/tmp/.buildx-cache
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
           tags: ${{secrets.DOCKER_HUB_USERNAME}}/devops-for-programmers-project-lvl1:latest
 
       - name: Image Digest

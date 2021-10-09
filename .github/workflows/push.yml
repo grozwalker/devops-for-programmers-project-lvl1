@@ -38,6 +38,10 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-cache
           tags: ${{secrets.DOCKER_HUB_USERNAME}}/devops-for-programmers-project-lvl1:latest
 
+      - name: Run tests
+        run: |
+          docker run --rm ${{secrets.DOCKER_HUB_USERNAME}}/devops-for-programmers-project-lvl1:latest --abort-on-container-exit
+
       - name: Image Digest
         run: echo ${{steps.docker_build.outputs.digest}}
 

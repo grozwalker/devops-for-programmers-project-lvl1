@@ -21,7 +21,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ hashFiles('**/Dockerfile') }}
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: ${{runner.os}}-buildx-
 
       - name: Set up Docker Buildx
@@ -36,14 +36,16 @@ jobs:
           file: Dockerfile.production
           builder: ${{steps.buildx.outputs.name}}
           push: false
+          load: true
           cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
           tags: ${{secrets.DOCKER_HUB_USERNAME}}/${{env.DOCKER_IMAGE_NAME}}:latest
-          outputs: type=docker,dest=/tmp/${{env.DOCKER_IMAGE_NAME}}.tar
+          # outputs: type=docker #,dest=/tmp/${{env.DOCKER_IMAGE_NAME}}.tar
 
-      - name: Load docker images from archive
-        run: |
-          docker load < /tmp/${{env.DOCKER_IMAGE_NAME}}.tar
+      # - name: Load docker images from archive
+      #   run: |
+      #     # docker load < /tmp/${{env.DOCKER_IMAGE_NAME}}.tar
+      #     docker images
 
       # - name: Run tests
       #   run: |
@@ -57,7 +59,11 @@ jobs:
         run: |
           docker push ${{secrets.DOCKER_HUB_USERNAME}}/${{env.DOCKER_IMAGE_NAME}}:latest
 
-      # - name: Move cache
-      #   run: |
-      #     rm -rf /tmp/.buildx-cache
-      #     mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
+      - name: Digest
+        run: |
+          echo ${{ steps.docker_build.outputs.digest }}

@@ -4,6 +4,11 @@ services:
   app:
     image: grozwalker/devops-for-programmers-project-lvl1:latest
     command: npm test
+    enviroment:
+      DATABASE_HOST: db
+      DATABASE_NAME: postgres
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: password
     depends_on:
       - db
 

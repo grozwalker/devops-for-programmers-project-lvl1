@@ -3,3 +3,7 @@ ci:
 
 start:
 	docker-compose up
+
+build:
+	docker-compose build
+	docker-compose run --rm app npm i

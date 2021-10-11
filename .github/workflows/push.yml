@@ -40,16 +40,6 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
           tags: ${{secrets.DOCKER_HUB_USERNAME}}/${{env.DOCKER_IMAGE_NAME}}:latest
-          # outputs: type=docker #,dest=/tmp/${{env.DOCKER_IMAGE_NAME}}.tar
-
-      # - name: Load docker images from archive
-      #   run: |
-      #     # docker load < /tmp/${{env.DOCKER_IMAGE_NAME}}.tar
-      #     docker images
-
-      # - name: Run tests
-      #   run: |
-      #     docker run --rm ${{secrets.DOCKER_HUB_USERNAME}}/${{env.DOCKER_IMAGE_NAME}}:latest npm test
 
       - name: Run tests
         run: |
